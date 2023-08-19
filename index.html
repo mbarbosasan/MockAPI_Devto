@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .person-collection-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: start;
+            gap: 8px;
+        }
+
+        .person-profile-block {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            width: 250px;
+            gap: 8px;
+        }
+
+        .profile-picture {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        li {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+<ul id="root" class="person-collection-container">
+
+</ul>
+<script>
+
+    const envUrl = {
+        nothingToSeeHere: '',
+        basePath: `URL_DA_SUA_API_AQUI`
+    }
+    fetch(`${envUrl.basePath}/usuarios`)
+        .then((response) => response.json())
+        .then((usuarios) => {
+            console.log(usuarios);
+            if (!usuarios) return;
+            const root = document.querySelector("#root");
+            usuarios.forEach((usuario) => {
+                root.appendChild(insertIntoTemplate(usuario))
+            })
+        })
+
+    function insertIntoTemplate(usuario) {
+        const element = document.createElement('li')
+        element.innerHTML
+        const template = `
+                <p>
+                <span class="person-profile-block"><img src="${usuario.fotoPerfil}" width="50px" height="50px" class="profile-picture"</span>
+                ${usuario.nome} ${usuario.sobrenome}</p>
+                <small>${usuario.email}</small>
+                <small>${usuario.dataNascimento}</small>
+        `
+        element.innerHTML = template;
+
+        return element;
+    }
+</script>
+</body>
+</html>
